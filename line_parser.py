@@ -1,13 +1,7 @@
 #!/usr/bin/env python
 
-'''
-usage:   extract.py <some.pdf>
-Locates Form XObjects and Image XObjects within the PDF,
-and creates a new PDF containing these -- one per page.
-Resulting file will be named extract.<some.pdf>
-'''
-
 import sys
+from nypost_scraper import scrape_page
 
-inpfn, = sys.argv[1:]
-
+# Going to parse the data directly from NY Post...
+scrape_page("SampleData/nypost_no_football.html", "")
