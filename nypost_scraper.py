@@ -7,8 +7,12 @@ Parse HTML of NY Post
 '''
 def scrape_page(path, sport):
 
-    with open(path, 'r') as testFile:
-        doc = testFile.read();
+    # Read from file (TEST ONLY, comment out)
+    # with open(path, 'r') as testFile:
+    #    doc = testFile.read();
+
+    # Read from NY Post
+    doc = urllib2.urlopen(path)
 
     parsed_data = BeautifulSoup(doc, 'html.parser')
 
@@ -19,8 +23,8 @@ def scrape_page(path, sport):
         print "Failed to parse line data from NY post."
         return
 
-    # Grab NBA section
-    sport_tag = parent_tag[0].find("div", {"class" : "sport-scores nba"})
+    # Grab section
+    sport_tag = parent_tag[0].find("div", {"class" : str.format("sport-scores {0}", sport)})
     games = sport_tag.find("tbody").find_all("tr")
     print str.format("Found {0} games", len(games))
 
