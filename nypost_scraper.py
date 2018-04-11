@@ -15,7 +15,21 @@ def scrape_page(path, sport):
     # Grab the lines div
     parent_tag = parsed_data.find_all("div", { "class": "box no-mobile module widget_nypost_post_line_widget"})
 
+    if len(parent_tag) == 0:
+        print "Failed to parse line data from NY post."
+        return
 
+    # Grab NBA section
+    sport_tag = parent_tag[0].find("div", {"class" : "sport-scores nba"})
+    games = sport_tag.find("tbody").find_all("tr")
+    print str.format("Found {0} games", len(games))
 
-    print len(parent_tag)
+    for game in games:
+        favorite = game.find("td", {"class" : "sport-score-team favorite"}).string
+        underdog = game.find("td", {"class": "sport-score-team underdog"}).string
+        line = game.find("td", {"class": "current-line"}).string
+        # FIXME regular str.format doesn't take unicode
+        # print str.format("{0} vs. {1}: {2}", favorite, underdog, line)
+        print favorite + " vs. " + underdog + ": " + line
+
 
